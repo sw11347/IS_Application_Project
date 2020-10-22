@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Print Assessment Report</title>
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous">
+    </script>
+    <script>
+        $(document).ready(function(){
+
+
+                $("#print_report_but").click(function () {
+                console.log("Hello?");
+                $.ajax({
+                    type: 'Get',
+                    dataType: 'JSON',
+                    // async: false,
+                     url: 'https://balham-college-db.herokuapp.com/api/Assessment/',
+                    success: function (data) {
+                        // location.reload();
+
+                        i = 0;
+                        while (i < data.length){
+                            assessment = data[i];
+                                $("#assessment_report").append( "Assessment ID: " + assessment.AssessmentID +
+                                    "<br>"+ " Number: " + assessment.AssessmentNumber + "<br>"+" Name: " + assessment.AssessmentName + "<br>" +" Type: " + assessment.Type+"<br>"+" Weighting: " + assessment.Weighting+"<br>"+" Maximum mark " + assessment.MaximumMark+"<br>");
+                            getCourseName(assessment.Course);
+                            getStudentResults(assessment.Course);
+
+
+                            i = i + 1;
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+
+        function getCourseName(CourseID){
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                async: false,
+                url: 'https://balham-college-db.herokuapp.com/api/Course/' + CourseID + "/",
+                success: function (data) {
+                    // location.reload();
+
+                    course = data;
+                    //
+                    $("#assessment_report").append("Course Name: " + course.CourseName +"<br>");
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        }
+        function getStudentResults(CourseID){
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                async: false,
+                url: 'https://balham-college-db.herokuapp.com/api/Enrolment/',
+                success: function (data) {
+                    // location.reload();
+
+                    j=0;
+                    // course = data;
+
+                    while (j < data.length) {
+                        enrolment = data[j];
+                        if (enrolment.Course == CourseID){
+                            console.log("success");
+                            getResults(enrolment.EnrolmentID);
+                            getStudentName(enrolment.Student);
+
+                        }
+
+                        j = j + 1;
+                    }
+                    //
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        }
+        function getResults(EnrolmentID){
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                async: false,
+                url: 'https://balham-college-db.herokuapp.com/api/Result/',
+                success: function (data) {
+                    // location.reload();
+                    k = 0;
+                    while (k < data.length) {
+                        result = data[k];
+                        if (result.Enrolment == EnrolmentID){
+                            $("#assessment_report").append("<br>"+"Mark: " + result.Mark +"<br>" + "Result Date: " + result.ResultDate +"<br>");
+                            break
+
+                        }
+
+                        k = k + 1;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        }
+        function getStudentName(StudentID){
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                async: false,
+                url: 'https://balham-college-db.herokuapp.com/api/Student/' + StudentID + "/",
+                success: function (data) {
+                    // location.reload();
+                    $("#assessment_report").append("<br>"+"Last Name: " + data.LastName +"<br>" + "First Name: " + data.FirstName +"<br>" + "<hr>");
+
+
+
+
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        }
+
+
+
+
+        });
+    </script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<form onsubmit ="return false">
+    <div id = "container">
+        <div id = "volume">
+            <h1>Assessment Report</h1>
+            <hr>
+
+            <p id = "assessment_report"></p>
+
+            <div id = "buttonCase">
+
+                <button type="button" id="print_report_but">Generate Report</button>
+                <a href="MainMenu.html"><button type="button" >Return</button></a>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

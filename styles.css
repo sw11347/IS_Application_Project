@@ -1,0 +1,77 @@
+body
+{
+    background: gray;
+    /*padding: 0;*/
+    /*margin: 0;*/
+}
+div{
+    display: block;
+    /*padding: 0;*/
+    border-width: medium;
+    border-radius: 12px;
+
+
+}
+h1{
+    /*padding: 0;*/
+    /*border-width: medium;*/
+    text-align: center;
+    font-size: 50px;
+    /*font-weight: bold;*/
+
+}
+label{
+    font-size: 150%;
+}
+input{
+    line-height: 25px;
+
+}
+#container{
+    /*border-radius: 20px;*/
+    background-color: lightgray;
+    /*!*padding: 10%;*!*/
+    /*width: 50%;*/
+    /*!*height: 70%;*!*/
+    /*border: black;*/
+    /*!*margin-right: auto;*!*/
+    /*margin-left: auto;*/
+    margin: auto;
+    width: 20%;
+    /*border: 3px solid green;*/
+    padding: 100px;
+    overflow: auto;
+}
+#volume{
+    /*position: relative;*/
+    /*align-content: stretch;*/
+}
+#buttonCase{
+    display: flex;
+    align-content: center;
+    list-style: none;
+    justify-content: space-evenly;
+}
+button,a
+{
+    width: 150px;
+    height: 50px;
+    /*font-size: 25px;*/
+    /*text-align: center;*/
+    border-radius: 12px;
+    background: gray;
+    border: black;
+    font-weight: bold;
+    /*background-color: #4CAF50; !* Green background *!*/
+    color: black; /* White text */
+    /*padding: 10px 24px; !* Some padding *!*/
+    cursor: pointer; /* Pointer/hand icon */
+    /*float: left; !* Float the buttons side by side *!*/
+
+}
+select{
+    max-width: 100%;
+    width: 100%;
+}
+#underlineHeading{
+    text-decoration: underline;}

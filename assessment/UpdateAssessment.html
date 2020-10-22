@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Assessment</title>
+
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous">
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'Get',
+                dataType: 'JSON',
+                url: 'https://balham-college-db.herokuapp.com/api/Assessment/',
+                success: function (data) {
+                    // location.reload();
+
+                    i = 0;
+                    while (i < data.length){
+                        assessment = data[i];
+                        $("#assessment_id_input").append("<option value='" + assessment.AssessmentID+ "'>"+ assessment.AssessmentID + " " + assessment.AssessmentNumber + " " +assessment.AssessmentName+"</option>");
+
+                        i = i + 1;
+                    }
+                    $("#assessment_id_input").change(function(){
+                        getAssessmentInfo($("#assessment_id_input").val());
+                    });
+
+                    $("#update_assessment_but").click(function(){
+                        updateAssessmentInfo($("#assessment_id_input").val());
+
+                    });
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+            function getAssessmentInfo (AssessmentID) {
+                $.ajax({
+                    type: 'Get',
+                    dataType: 'JSON',
+                    url: 'https://balham-college-db.herokuapp.com/api/Assessment/'+AssessmentID,
+                    success: function (data) {
+                        // location.reload();
+                        $("#assessment_id").val(data.AssessmentID);
+                        $("#assessment_name").val(data.AssessmentName);
+                        $("#assessment_number").val(data.AssessmentNumber);
+                        $("#assessment_type").val(data.Type);
+                        $("#assessment_weighting").val(data.Weighting);
+                        $("#assessment_mark").val(data.MaximumMark);
+                        getCourseInfo(data.Course);
+
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+            function getCourseInfo(ID) {
+                $.ajax({
+                    type: 'Get',
+                    dataType: 'JSON',
+                    url: 'https://balham-college-db.herokuapp.com/api/Course/',
+                    success: function (data) {
+                        // location.reload();
+                        $("#course_id_input").empty();
+
+                        i = 0;
+                        while (i < data.length){
+                            course = data[i];
+                            if($("#assessment_id_input").val()==""){
+                                $("#course_id_input").empty();
+
+                            }
+                            else if (course.CourseID == ID){
+                                $("#course_id_input").append("<option value='" + course.CourseID+ " 'selected>" + course.CourseID + " " +course.CourseName+ "</option>");
+
+                            }
+                            else{
+                                $("#course_id_input").append("<option value='" + course.CourseID+ "'>" + course.CourseID + " " +course.CourseName+ "</option>");
+                            }
+
+
+                            i = i + 1;
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+
+            }
+
+
+            function updateAssessmentInfo (AssessmentID) {
+                // location.reload();
+                updateName = $("#assessment_name").val();
+                updateNumber = $("#assessment_number").val();
+                updateType = $("#assessment_type").val();
+                updateWeighting =$("#assessment_weighting").val();
+                updateMark =$("#assessment_mark").val();
+                updateCourse =$("#course_id_input").val();
+
+                console.log();
+
+                $.ajax({
+                    type: 'Put',
+                    dataType: 'JSON',
+                    url: 'https://balham-college-db.herokuapp.com/api/Assessment/'+AssessmentID+'/',
+                    data: {
+                        AssessmentName: updateName,
+                        AssessmentNumber: updateNumber,
+                        Type: updateType,
+                        Weighting: updateWeighting,
+                        MaximumMark: updateMark,
+                        Course: updateCourse,
+
+                    },
+                    success: function (data) {
+                        alert("Assessment updated successfully");
+                        location.reload();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        errors = JSON.parse(err.responseText);
+                        console.log(errors);
+                        $("#assessment_name_input_err").text(errors.AssessmentName);
+                        $("#assessment_number_input_err").text(errors.AssessmentNumber);
+                        $("#assessment_type_input_err").text(errors.Type);
+                        $("#assessment_weighting_input_err").text(errors.Weighting);
+                        $("#assessment_mark_input_err").text(errors.MaximumMark);
+                        $("#course_id_input_err").text(errors.Course);
+
+                    }
+                });
+            }
+
+
+        });
+    </script>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<form onsubmit ="return false">
+    <div id = "container">
+        <p id = "volume">
+        <h1>Update a Assessment</h1>
+        <hr>
+
+        <label>List of Assessments: </label>
+        <p><select id="assessment_id_input">
+            <option value = "">Select one</option>
+        </select>
+        </p>
+
+        <label>Assessment ID:</label>
+        <p><input id="assessment_id" type="text"  size="5" disabled></p>
+
+        <label>Assessment Name:</label>
+        <p><input id="assessment_name" type="text" maxlength="40" size="40"></p>
+        <p id="assessment_name_input_err"></p>
+
+        <label>Assessment Number:</label>
+        <p><input id="assessment_number" type="number" maxlength="5" size="5" max="5" min="1"></p>
+        <p id="assessment_number_input_err"></p>
+
+        <label>Assessment Type:</label>
+        <p><select id="assessment_type">
+            <option value="">Select One</option>
+            <option value="Assignment">Assignment</option>
+            <option value="Written Test">Written Test</option>
+            <option value="Practical Test">Practical Test</option>
+            <option value="Final Exam">Final Exam</option>
+        </select>
+        </p>
+        <p id="assessment_type_input_err"></p>
+
+        <label>Assessment Weighting:</label>
+        <p><input id="assessment_weighting" type="number" maxlength="5" size="5" max="100" min="10"></p>
+        <p id="assessment_weighting_input_err"></p>
+
+        <label>Assessment Maximum Mark:</label>
+        <p><input id="assessment_mark" type="number" maxlength="5" size="5" max="200" min="50"></p>
+        <p id="assessment_mark_input_err"></p>
+
+        <label>List of Courses: </label>
+        <p><select id="course_id_input">
+            <option value = "">Select one</option>
+        </select>
+        </p>
+        <p id="course_id_input_err"></p>
+
+
+        <hr>
+        <div id = "buttonCase">
+
+            <button type="button" id="update_assessment_but">Update Assessment</button>
+            <a href="MainMenu.html"><button type="button" >Return</button></a>
+        </div>
+
+    </div>
+    </div>
+</form>
+</body>
+</html>
