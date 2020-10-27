@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Project</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Add Lecturer</title>
+
 
     <script
             src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -50,45 +50,42 @@
     </style>
     <script>
         $(document).ready(function () {
-            //get investigator
-            clients = getClients();
-            i = 0;
-            while (i < clients.length) {
-                client = clients[i];
-                $("#client_id_input").append("<option value='" + client.ClientID + "'>" + client.LastName + " " + client.FirstName + "</option>");
-                i = i + 1;
-                console.log(client)
-            }
 
-            $("#add_case_but").click(function () {
-                caseid = $("#case_id_input").val();
-                casedescription = $("#case_description_input").val();
-                casedate = $("#case_date_input").val();
-                casestatus = $("#case_status_input").val();
-                casefee = $("#case_fee_input").val();
-                casetype = $("#case_type_input").val();
-                casenotes = $("#case_notes_input").val();
-                client = $("#client_id_input").val();
+            $("#addLecturerBut").click(function () {
+                lecturerLastName = $("#lecturerLastName").val();
+                lecturerFirstName = $("#lecturerFirstName").val();
+                lecturerAddress = $("#lecturerAddress").val();
+                lecturerSuburb = $("#lecturerSuburb").val();
+                lecturerCity = $("#lecturerCity").val();
+                lecturerPhone = $("#lecturerPhone").val();
+                lecturerEmail = $("#lecturerEmail").val();
+                lecturerRanking = $("#lecturerRanking").val();
+                lecturerType = $("#lecturerType").val();
 
 
                 $.ajax({
                     type: 'POST',
                     dataType: 'JSON',
-                    url: 'https://bigeye7.herokuapp.com/api/cases/',
+                    url: 'https://balham-college-db.herokuapp.com/api/Lecturer/',
                     data: {
-                        CaseID: caseid,
-                        Description: casedescription,
-                        CaseType: casetype,
-                        CaseDate: casedate,
-                        Status: casestatus,
-                        Fee: casefee,
-                        Notes: casenotes,
-                        Client: client,
+                        FirstName: lecturerLastName,
+                        LastName: lecturerFirstName,
+                        StreetAddress: lecturerAddress,
+                        Suburb: lecturerSuburb,
+                        City: lecturerCity,
+                        EmailAddress: lecturerEmail,
+                        PhoneNumber: lecturerPhone,
+                        Ranking: lecturerRanking,
+                        Type: lecturerType,
                     },
-                    success: function (data) {
-                        alert('Case added successfully');
+                    success: function () {
+                        alert('Lecturer Added Successfully');
                         location.reload();
                     },
+                    error: function (err) {
+                        console.log(err);
+
+                    }
 
 
                 });
@@ -97,7 +94,7 @@
         });
 
     </script>
-    <script src="js/script.js"></script>
+
 
 
 </head>
@@ -108,7 +105,6 @@
     <form onsubmit ="return false">
     </form>
     <table align="center">
-    <tr><td><input id="lecturerID" placeholder="Lecturer ID" readonly></td></tr>
     <tr><td>*<input id="lecturerLastName" type="text" maxlength="30" placeholder="Last Name"></td></tr>
     <tr><td>*<input id="lecturerFirstName" type="text" maxlength="30" placeholder="First Name"></td></tr>
     <tr><td>*<input id="lecturerAddress" type="text" maxlength="50" placeholder="Street Address"></td></tr>

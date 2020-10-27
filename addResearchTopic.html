@@ -50,45 +50,28 @@
     </style>
     <script>
         $(document).ready(function () {
-            //get investigator
-            clients = getClients();
-            i = 0;
-            while (i < clients.length) {
-                client = clients[i];
-                $("#client_id_input").append("<option value='" + client.ClientID + "'>" + client.LastName + " " + client.FirstName + "</option>");
-                i = i + 1;
-                console.log(client)
-            }
 
-            $("#add_case_but").click(function () {
-                caseid = $("#case_id_input").val();
-                casedescription = $("#case_description_input").val();
-                casedate = $("#case_date_input").val();
-                casestatus = $("#case_status_input").val();
-                casefee = $("#case_fee_input").val();
-                casetype = $("#case_type_input").val();
-                casenotes = $("#case_notes_input").val();
-                client = $("#client_id_input").val();
-
+            $("#addTopicBut").click(function () {
+                topicdescription = $("#topicDescription").val();
+                impact = $("#topicImpact").val();
 
                 $.ajax({
                     type: 'POST',
                     dataType: 'JSON',
-                    url: 'https://bigeye7.herokuapp.com/api/cases/',
+                    url: 'https://balham-college-db.herokuapp.com/api/ResearchTopic/',
                     data: {
-                        CaseID: caseid,
-                        Description: casedescription,
-                        CaseType: casetype,
-                        CaseDate: casedate,
-                        Status: casestatus,
-                        Fee: casefee,
-                        Notes: casenotes,
-                        Client: client,
+                        Description: topicdescription,
+                        Impact : impact,
+
                     },
-                    success: function (data) {
-                        alert('Case added successfully');
+                    success: function () {
+                        alert('Topic Added Successfully');
                         location.reload();
                     },
+                    error: function (err) {
+                        console.log(err);
+
+                    }
 
 
                 });
@@ -97,7 +80,7 @@
         });
 
     </script>
-    <script src="js/script.js"></script>
+
 
 
 </head>
@@ -109,7 +92,6 @@
 
         <table align="center">
 
-            <tr><td><input id="topicID" placeholder="Research Topic ID" readonly></td></tr>
             <tr><td>*<input id="topicDescription" type="text" maxlength="40" placeholder="Description"></td></tr>
             <tr><td>*<select id="topicImpact">
                 <option>Impact</option>
