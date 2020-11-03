@@ -1,77 +1,118 @@
-body
-{
-    background: gray;
-    /*padding: 0;*/
-    /*margin: 0;*/
-}
-div{
-    display: block;
-    /*padding: 0;*/
-    border-width: medium;
-    border-radius: 12px;
-
+body{
+    --main-outline-colour:3px solid white;
+    --hr-colour: white;
 
 }
-h1{
-    /*padding: 0;*/
-    /*border-width: medium;*/
-    text-align: center;
-    font-size: 50px;
-    /*font-weight: bold;*/
+
+body {
+    position: relative;
+
+    background-image: url("images/BGHighSchool.png");
+    background-repeat: no-repeat, repeat;
+    /*background-size: contain;*/
+    /*height: 100%;*/
+
+    background-position: center;
+    background-size: auto;
 
 }
-label{
-    font-size: 150%;
-}
-input{
-    line-height: 25px;
 
-}
 #container{
-    /*border-radius: 20px;*/
-    background-color: lightgray;
-    /*!*padding: 10%;*!*/
-    /*width: 50%;*/
-    /*!*height: 70%;*!*/
-    /*border: black;*/
-    /*!*margin-right: auto;*!*/
-    /*margin-left: auto;*/
+    background-color: rgba(0, 0, 0, 0.75);;
+    border-radius: 25px;
     margin: auto;
-    width: 20%;
-    /*border: 3px solid green;*/
-    padding: 100px;
+    width: 50%;
+    border: var(--main-outline-colour);
+    padding: 10px;
     overflow: auto;
 }
-#volume{
-    /*position: relative;*/
-    /*align-content: stretch;*/
+#left{
+    background: black;
+    float: left;
+    width: 40%;
+    border:var(--main-outline-colour);
+    padding: 10px;
 }
-#buttonCase{
-    display: flex;
-    align-content: center;
-    list-style: none;
-    justify-content: space-evenly;
+
+#right{
+    background: red;
+    margin-left: 45%;
+    /*width: 40%;*/
+    border: var(--main-outline-colour);
 }
-button,a
-{
-    width: 150px;
-    height: 50px;
-    /*font-size: 25px;*/
-    /*text-align: center;*/
-    border-radius: 12px;
-    background: gray;
-    border: black;
-    font-weight: bold;
-    /*background-color: #4CAF50; !* Green background *!*/
-    color: black; /* White text */
-    /*padding: 10px 24px; !* Some padding *!*/
-    cursor: pointer; /* Pointer/hand icon */
-    /*float: left; !* Float the buttons side by side *!*/
+#content{
+    /*background: red;*/
+    /*align-content: center;*/
+    padding: 10px;
+    width: 80%;
+    margin: auto;
 
 }
-select{
-    max-width: 100%;
-    width: 100%;
+.fields{
+    --padding:20px;
+
+    padding-top: var(--padding);
+    padding-bottom: var(--padding);
+    margin: auto;
+    /*width: 34%;*/
+    text-align: center;
+
 }
-#underlineHeading{
-    text-decoration: underline;}
+
+h1{
+    text-align: center;
+    font-size: 50px;
+    color: white;
+}h2{
+     text-align: center;
+     font-size: 30px;
+     color: white;
+ }h3{
+      text-align: center;
+      font-size: 20px;
+      color: white;
+  }
+hr{
+    color: var(--hr-colour);
+
+}
+.subHR{
+    color: var(--hr-colour);
+    width: 75%;
+
+}
+
+button{
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 25px;
+    width: 45%;
+    border: var(--main-outline-colour);
+
+
+}
+
+.actionButton{
+    float: left;
+}
+#returnButton{
+    margin-left: 10%;
+}
+input, select{
+    font-size: 24px;
+    width: 400px;
+    /*max-font-size: 2.5vw;*/
+    /*min-font-size: 20px;*/
+}
+select{
+    width: 406px;
+}
+p{
+    font-size: 18px;
+    color: red;
+}
+
